@@ -9,7 +9,12 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-})
+    status: {
+        type: String,
+        ennm: ["Pending", "Complete"],
+        default: "Pending"
+    }
+}, { timestamps: true })
 
 const taskModel = mongoose.model("task", taskSchema)
 

@@ -5,6 +5,7 @@ import TodoApp from "./components/TodoApp";
 import DisplayData from "./components/DisplayData";
 import toast from "react-hot-toast";
 import Searching from "./components/Searching";
+import EditTodo from "./components/EditTodo";
 
 export default function App() {
   const [createTask, setCreateTask] = useState(false)
@@ -17,7 +18,6 @@ export default function App() {
   const fetchNotesData = async () => {
     let taskData = await fetch(`http://localhost:3000/task`);
     let res = await taskData.json();
-    console.log("res", res.tasks);
     setTasks(res.tasks)
   }
   const tooglecreateNote = () => {
@@ -68,13 +68,17 @@ export default function App() {
   // update logic here
   const updateData = async (id) => {
     let notes = await axios.get(`http://localhost:3000/task/${id}`);
-    let res = await notes.data.data
-    console.log(" your data here", res);
-    // setEditData(res)
+    let res = await notes.data.data;
+
+
     tooglepoupu()
     setEditData(res);
-    setTitle(res.title);
-    setContent(res.content);
+  }
+
+  // complete task logic here
+  const markCompleteTask = async (id) => {
+    console.log("id", id);
+
   }
 
   useEffect(() => {
@@ -98,7 +102,13 @@ export default function App() {
               <TodoApp title={title} setTitle={setTitle} content={content} setContent={setContent} postdata={postdata} tooglecreateNote={tooglecreateNote} />
             </div>
           </div>
-          <DisplayData tasks={tasks} deleteData={deleteData} />
+          <div className={`absolute w-full h-full   ${editModal ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
+            <div className="overly w-full h-full absolute z-10"></div>
+            <div className="relative z-50">
+              <EditTodo tooglepoupu={tooglepoupu} editData={editData} fetchNotesData={fetchNotesData} />
+            </div>
+          </div>
+          <DisplayData markCompleteTask={markCompleteTask} tasks={tasks} deleteData={deleteData} updateData={updateData} />
         </section>
       </main>
     </>
