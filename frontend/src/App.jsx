@@ -14,9 +14,10 @@ export default function App() {
   const [content, setContent] = useState("");
   const [editData, setEditData] = useState(null)
   const [editModal, setEditModal] = useState(false);
-
+  const api = import.meta.env.VITE_BACKEND_URL;
+  console.log("api", api);
   const fetchNotesData = async () => {
-    let taskData = await fetch(`http://localhost:3000/task`);
+    let taskData = await fetch(`${api}/task`);
     let res = await taskData.json();
     setTasks(res.tasks)
   }
@@ -38,7 +39,7 @@ export default function App() {
       toast.error(" this filled is required !")
     }
     try {
-      let data = await axios.post(`http://localhost:3000/task`, createTask);
+      let data = await axios.post(`${api}/task`, createTask);
       let res = data.data;
       toast.success("post data sucessfully !")
       setCreateTask(false);
@@ -55,7 +56,7 @@ export default function App() {
     let confitm = window.confirm("Are U Sure U Went To Delete This Data")
     if (confitm) {
       try {
-        let data = await axios.delete(`http://localhost:3000/task/${id}`);
+        let data = await axios.delete(`${api}/task/${id}`);
         let res = data.data;
         toast.success(" Task delete sucessfully !")
         fetchNotesData()
@@ -67,10 +68,8 @@ export default function App() {
 
   // update logic here
   const updateData = async (id) => {
-    let notes = await axios.get(`http://localhost:3000/task/${id}`);
+    let notes = await axios.get(`${api}/task/${id}`);
     let res = await notes.data.data;
-
-
     tooglepoupu()
     setEditData(res);
   }
@@ -78,7 +77,6 @@ export default function App() {
   // complete task logic here
   const markCompleteTask = async (id) => {
     console.log("id", id);
-
   }
 
   useEffect(() => {
