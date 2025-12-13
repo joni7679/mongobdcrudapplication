@@ -1,16 +1,65 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
+# FRONTEND 
+## Project Overview
+This is the frontend of a To-Do List application built using **React.js**.
+It is fully integrated with the backend APIs to perform CRUD operations, status updates, and task searching.
+## Tech Stack
+* React.js
+* Axios
+* CSS / Tailwind
+* Netlify (Deployment)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+* Add new task
+* Update task
+* Delete task
+* Mark task as complete / pending
+* Search tasks
+* Real-time UI updates
 
-## React Compiler
+## Environment Variables
+Create a `.env` file:
+```
+VITE_API_URL=https://YOUR-BACKEND-URL.onrender.com
+```
+## How to Run Locally
+```
+npm install
+npm run dev
+```
+## API Integration
+* Axios used for all API requests
+* State managed using React `useState`
+* UI updates dynamically based on API responses
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Error Handling
+* Handled API errors using try-catch
+* Displayed error messages to users
+## Challenges Faced
+* Connecting frontend with live backend
+* Managing component state after API updates
+* Handling API errors gracefully
 
-## Expanding the ESLint configuration
+## Solutions
+* Used environment variables for API URLs
+* Proper state updates after CRUD operations
+* Centralized API calls using Axios
+---
+# Submission Notes
+Ensure that:
+* Repositories are **public**
+* `.env` and `node_modules` are **not pushed**
+* Live links are working properly
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Live Demo
+## frontend 
+```
+https://mongobdcrudapplication.vercel.app/
+```
+## Backend API URL
+```
+https://mongobdcrudapplication.onrender.com/task
+```
