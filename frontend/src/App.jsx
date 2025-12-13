@@ -15,7 +15,6 @@ export default function App() {
   const [editData, setEditData] = useState(null)
   const [editModal, setEditModal] = useState(false);
   const api = import.meta.env.VITE_BACKEND_URL;
-  console.log("api", api);
   const fetchNotesData = async () => {
     let taskData = await fetch(`${api}/task`);
     let res = await taskData.json();

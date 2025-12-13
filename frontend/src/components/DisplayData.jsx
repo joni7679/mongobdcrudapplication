@@ -10,8 +10,9 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                     <div className=' flex items-center justify-between  flex-col gap-3'>
                         {
                             tasks.length === 0 ? (
-                                <div className='bg-white w-full mx-w-md shadow rouned p-5 rounded-2xl flex items-center justify-between'>
-                                    <h1 className='capitalize font-semibold text-center'>no any task here</h1>
+                                <div className='bg-gray-200 animate-pulse
+ w-full mx-w-md shadow rouned p-5 rounded-2xl flex items-center justify-between h-28'>
+
                                 </div>
                             ) :
                                 tasks.map((item) => {
