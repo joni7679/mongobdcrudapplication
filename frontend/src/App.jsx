@@ -18,6 +18,8 @@ export default function App() {
   const [searchTask, setSearchTask] = useState("");
 
   const api = import.meta.env.VITE_BACKEND_URL;
+  console.log("api", api);
+
   const fetchNotesData = async () => {
     let taskData = await fetch(`${api}/task`);
     let res = await taskData.json();
@@ -43,7 +45,7 @@ export default function App() {
     setLoading(true)
     try {
       const data = await axios.post(`${api}/task`, createTask);
-      toast.success("post data sucessfully !")
+      toast.success("Task add sucessfully !")
       setCreateTask(false);
       fetchNotesData()
       setContent('');
@@ -84,7 +86,11 @@ export default function App() {
   const handleSearch = async () => {
     console.log(searchTask);
     try {
-      const task= await axios.get(``);
+      const task = await axios.get(`${api}/task`);
+      console.log("Task", task);
+
+      const search = task.filter((val) => val.title === searchTask);
+      console.log("search task", search);
     } catch (error) {
       console.log("error", error);
     }
