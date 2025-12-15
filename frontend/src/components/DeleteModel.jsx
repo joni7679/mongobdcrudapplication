@@ -1,5 +1,6 @@
 import React from 'react'
 import { MdDelete } from "react-icons/md";
+import { ImCancelCircle } from "react-icons/im";
 
 const DeleteModel = ({ confirmDelete, handelDeletepopUp }) => {
     return (
@@ -11,11 +12,13 @@ const DeleteModel = ({ confirmDelete, handelDeletepopUp }) => {
                         you are about to delete a task
                     </p>
                     <p className='text-gray-600 text-center capitalize'>
-                        this will delete your task are u sure ?
+                         this will delete your task are u sure ?
                     </p>
                     <div className='flex gap-3.5'>
-                        <button onClick={handelDeletepopUp} type='button' className='px-4 py-2 rounded-2xl text-black capitalize text-
-                        xl w-full mt-5 cursor-pointer '>colse</button>
+                        <button onClick={handelDeletepopUp} type='button' className='px-4 py-2 flex bg-gray-400 text-white items-center gap-2 rounded-2xl  capitalize text-
+                        xl w-full mt-5 cursor-pointer  '>cancel
+                            <ImCancelCircle  className='inline-block'/>
+                        </button>
                         <button onClick={confirmDelete} type='submit' className={`px-4 cursor-pointer py-2 rounded-2xl bg-red-500 text-white capitalize text-
                         xl w-full mt-5   `}>
                             Delete
