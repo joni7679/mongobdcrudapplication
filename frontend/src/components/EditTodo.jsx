@@ -6,7 +6,7 @@ const EditTodo = ({ tooglepoupu, editData, fetchNotesData }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
-
+    const api = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
         if (editData) {
             setTitle(editData.title)
@@ -24,7 +24,7 @@ const EditTodo = ({ tooglepoupu, editData, fetchNotesData }) => {
         setLoading(true)
         try {
             const update = { title, content };
-            await axios.put(`http://localhost:3000/task/${editData._id}`, update);
+            await axios.put(`${api}/task/${editData._id}`, update);
             toast.success("Task Update Success fully !")
             setLoading(false)
             fetchNotesData()

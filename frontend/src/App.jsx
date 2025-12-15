@@ -18,7 +18,6 @@ export default function App() {
   const [searchTask, setSearchTask] = useState("");
 
   const api = import.meta.env.VITE_BACKEND_URL;
-  console.log("api", api);
 
   const fetchNotesData = async () => {
     let taskData = await fetch(`${api}/task`);
@@ -128,6 +127,5 @@ export default function App() {
         </section>
       </main>
     </>
-
   );
 }
