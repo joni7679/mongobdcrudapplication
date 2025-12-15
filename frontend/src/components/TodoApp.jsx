@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TodoApp = ({ title, setTitle, content, setContent, postdata, tooglecreateNote }) => {
+const TodoApp = ({ loading, title, setTitle, content, setContent, postdata, tooglecreateNote }) => {
     return (
         <>
             <div className='px-6 md:px-12 container mx-auto flex items-center justify-center flex-col z-50 '>
@@ -22,8 +22,11 @@ const TodoApp = ({ title, setTitle, content, setContent, postdata, tooglecreateN
                                 onChange={(e) => setContent(e.target.value)}
                             ></textarea>
                         </div>
-                        <button className='px-4 py-2 rounded-2xl bg-blue-500 text-white capitalize text-
-                        xl w-full mt-5 cursor-pointer'>add task</button>
+                        <button disabled={loading} className={`px-4 py-2 rounded-2xl bg-blue-500 text-white capitalize text-
+                        xl w-full mt-5 cursor-pointer  ${loading ? "cursor-not-allowed" : ""}`}>
+
+                            {loading ? "Loading......." : "Add Task"}
+                        </button>
                     </form>
                 </div>
             </div>

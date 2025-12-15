@@ -62,11 +62,21 @@ exports.updateTask = async (req, res) => {
     const taskId = req.params.id;
     console.log("update data", taskId);
     const { title, content } = req.body;
+    if (!title) {
+        return res.status(404).send({
+            message: "title is required"
+        });
+    }
     try {
-        await taskModel.findOneAndUpdate(
+        const updateTask = await taskModel.findOneAndUpdate(
             { _id: taskId },
             { title: title, content: content },
         );
+        if (!updateTask) {
+            return res.status(404).send({
+                message: "task not found !"
+            });
+        }
         res.send({
             message: "note updated successfully!"
         });
@@ -97,5 +107,21 @@ exports.deleteTask = async (req, res) => {
 }
 
 exports.markascompleteTask = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const task = await taskModel.findByIdAndUpdate(id, { status: "Complete" }, { new: true })
+        if (!task) {
+            res.status(404).json({
+                message: "task not found"
+            })
+        }
+        res.status(200).json({
+            message: "task complete "
+        })
+    } catch (error) {
+        res.status(500).send({
+            error: "failed to task complete",
+            details: error.message
+        })
+    }
 }

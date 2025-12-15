@@ -8,6 +8,7 @@ import Searching from "./components/Searching";
 import EditTodo from "./components/EditTodo";
 
 export default function App() {
+  const [loading, setLoading] = useState(false)
   const [createTask, setCreateTask] = useState(false)
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
@@ -37,26 +38,25 @@ export default function App() {
     if (!title) {
       toast.error(" this filled is required !")
     }
+    setLoading(true)
     try {
-      let data = await axios.post(`${api}/task`, createTask);
-      let res = data.data;
+      const data = await axios.post(`${api}/task`, createTask);
       toast.success("post data sucessfully !")
       setCreateTask(false);
       fetchNotesData()
       setContent('');
       setTitle('')
+      setLoading(false)
     } catch (error) {
       console.log("error", error);
     }
   }
   //  delete logic here
   const deleteData = async (id) => {
-    console.log("id", id);
-    let confitm = window.confirm("Are U Sure U Went To Delete This Data")
+    const confitm = window.confirm("Are U Sure U Went To Delete This Data")
     if (confitm) {
       try {
-        let data = await axios.delete(`${api}/task/${id}`);
-        let res = data.data;
+        const data = await axios.delete(`${api}/task/${id}`);
         toast.success(" Task delete sucessfully !")
         fetchNotesData()
       } catch (error) {
@@ -75,8 +75,23 @@ export default function App() {
 
   // complete task logic here
   const markCompleteTask = async (id) => {
-    console.log("id", id);
-  }
+    
+    try {
+      const res = await axios.patch(`${api}/task/${id}`);
+      toast.success("Task Completed!");
+      setTasks((prev) =>
+        prev.map((task) =>
+          task._id === id
+            ? { ...task, status: "Completed" }
+            : task
+        )
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to complete task");
+    }
+  };
+
 
   useEffect(() => {
     fetchNotesData();
@@ -96,7 +111,7 @@ export default function App() {
           <div className={`absolute w-full h-full   ${createTask ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
             <div className="overly w-full h-full absolute z-10"></div>
             <div className="relative z-50">
-              <TodoApp title={title} setTitle={setTitle} content={content} setContent={setContent} postdata={postdata} tooglecreateNote={tooglecreateNote} />
+              <TodoApp loading={loading} title={title} setTitle={setTitle} content={content} setContent={setContent} postdata={postdata} tooglecreateNote={tooglecreateNote} />
             </div>
           </div>
           <div className={`absolute w-full h-full   ${editModal ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 const EditTodo = ({ tooglepoupu, editData, fetchNotesData }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('')
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (editData) {
@@ -16,10 +17,16 @@ const EditTodo = ({ tooglepoupu, editData, fetchNotesData }) => {
     // update data logic here...
     const updateTask = async (e) => {
         e.preventDefault();
+
+        if (!title) {
+            toast.error(" Title Is Required !")
+        }
+        setLoading(true)
         try {
             const update = { title, content };
             await axios.put(`http://localhost:3000/task/${editData._id}`, update);
             toast.success("Task Update Success fully !")
+            setLoading(false)
             fetchNotesData()
             tooglepoupu()
         } catch (error) {
@@ -48,8 +55,11 @@ const EditTodo = ({ tooglepoupu, editData, fetchNotesData }) => {
                                 onChange={(e) => setContent(e.target.value)}
                             ></textarea>
                         </div>
-                        <button className='px-4 py-2 rounded-2xl bg-blue-500 text-white capitalize text-
-                        xl w-full mt-5 cursor-pointer'>Update</button>
+                        <button disabled={loading} className={`px-4 py-2 rounded-2xl bg-blue-500 text-white capitalize text-
+                        xl w-full mt-5 cursor-pointer  ${loading ? "cursor-not-allowed" : ""}`}>
+
+                            {loading ? "Loading......." : "Updated Task"}
+                        </button>
                     </form>
                 </div>
             </div>

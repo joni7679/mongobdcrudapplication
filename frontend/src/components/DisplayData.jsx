@@ -10,7 +10,7 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                     <div className=' flex items-center justify-between  flex-col gap-3'>
                         {
                             tasks.length === 0 ? (
-                                <div className='bg-gray-200 animate-pulse
+                                <div className='bg-gray-300 animate-pulse
  w-full mx-w-md shadow rouned p-5 rounded-2xl flex items-center justify-between h-28'>
 
                                 </div>
@@ -18,19 +18,17 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                                 tasks.map((item) => {
                                     const { title, content, status, createdAt } = item
                                     return (
-
                                         <div key={item._id} className='bg-white w-full mx-w-md shadow rouned p-5 rounded-2xl flex items-center justify-between'>
                                             <div>
                                                 <div className='flex items-center gap-2'>
                                                     <h1 className='font-semibold capitalize text-xl'>{title}</h1>
                                                     <p className={
-                                                        `text-sm  p-1 rounded-2xl
-                                                    ${status === "complete" ? "bg-green-200 text-green-600" : "bg-yellow-200 text-yellow-600"}
-                                                            `}
-                                                    >{
-                                                            status === "complete" ? "Complete" : "Pending"
-                                                        }</p>
-
+                                                        `text-sm  p-1 rounded-2xl capitalize
+                                                    ${status === "Complete" ? "bg-green-200 text-green-600" : "bg-yellow-200 text-yellow-600"}`}>
+                                                        {
+                                                            status === "Complete" ? "Complete" : "Pending"
+                                                        }
+                                                    </p>
                                                 </div>
                                                 <p className=' mt-5'>
                                                     {new Date(createdAt).toLocaleString()}
