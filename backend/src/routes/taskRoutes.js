@@ -1,6 +1,6 @@
 const express = require('express');
 const taskModel = require('../models/task.model');
-const { featchAllTaks, getSingleByIdTask, deleteTask, markascompleteTask, createTask, updateTask } = require('../controllers/taskController');
+const { featchAllTaks, getSingleByIdTask, deleteTask, markascompleteTask, createTask, updateTask, searchTask } = require('../controllers/taskController');
 const router = express.Router()
 router.post('/task', createTask);
 router.get('/task', featchAllTaks)
@@ -31,5 +31,5 @@ router.patch('/task/:id', async (req, res) => {
 });
 router.put('/task/:id', updateTask);
 router.put('/task/:id',markascompleteTask)
-
+router.get('/task', searchTask)
 module.exports = router

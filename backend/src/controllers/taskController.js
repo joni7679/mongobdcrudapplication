@@ -21,7 +21,6 @@ exports.createTask = async (req, res) => {
         });
     }
 }
-
 exports.featchAllTaks = async (req, res) => {
     try {
         const tasks = await taskModel.find();
@@ -36,7 +35,6 @@ exports.featchAllTaks = async (req, res) => {
         })
     }
 }
-
 exports.getSingleByIdTask = async (req, res) => {
     const noteId = req.params.id;
     try {
@@ -57,7 +55,6 @@ exports.getSingleByIdTask = async (req, res) => {
         })
     }
 }
-
 exports.updateTask = async (req, res) => {
     const taskId = req.params.id;
     console.log("update data", taskId);
@@ -124,4 +121,23 @@ exports.markascompleteTask = async (req, res) => {
             details: error.message
         })
     }
+}
+
+exports.searchTask = async (req, res) => {
+    const { title } = req.body;
+    try {
+        const searchTask = await taskModel.find({
+            title: { $regex: title, $options: "i" }
+        })
+        res.send({
+            message: "task search success fully",
+            data: searchTask
+        })
+    } catch (error) {
+        res.status(500).send({
+            error: " task title failed",
+            details: error.message
+        })
+    }
+
 }

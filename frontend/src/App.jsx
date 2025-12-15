@@ -15,6 +15,8 @@ export default function App() {
   const [content, setContent] = useState("");
   const [editData, setEditData] = useState(null)
   const [editModal, setEditModal] = useState(false);
+  const [searchTask, setSearchTask] = useState("");
+
   const api = import.meta.env.VITE_BACKEND_URL;
   const fetchNotesData = async () => {
     let taskData = await fetch(`${api}/task`);
@@ -75,20 +77,16 @@ export default function App() {
 
   // complete task logic here
   const markCompleteTask = async (id) => {
-    
+    console.log("id", id);
+
+  };
+
+  const handleSearch = async () => {
+    console.log(searchTask);
     try {
-      const res = await axios.patch(`${api}/task/${id}`);
-      toast.success("Task Completed!");
-      setTasks((prev) =>
-        prev.map((task) =>
-          task._id === id
-            ? { ...task, status: "Completed" }
-            : task
-        )
-      );
+      const task= await axios.get(``);
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to complete task");
+      console.log("error", error);
     }
   };
 
@@ -107,7 +105,7 @@ export default function App() {
               Add New Task
             </button>
           </div>
-          <Searching />
+          <Searching searchTask={searchTask} handleTask={handleSearch} setSearchTask={setSearchTask} />
           <div className={`absolute w-full h-full   ${createTask ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
             <div className="overly w-full h-full absolute z-10"></div>
             <div className="relative z-50">
