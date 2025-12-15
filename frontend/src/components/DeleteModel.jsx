@@ -1,0 +1,30 @@
+import React from 'react'
+import { MdDelete } from "react-icons/md";
+
+const DeleteModel = ({ confirmDelete, handelDeletepopUp }) => {
+    return (
+        <>
+            <div className='w-full max-w-md rounded-3xl shadow-2xl px-3 py-5 relative h-52 bg-white'>
+                <MdDelete className='text-5xl text-red-600 absolute left-1/2 top-[-0%]' />
+                <div className='mt-12'>
+                    <p className='font-semibold  capitalize text-center '>
+                        you are about to delete a task
+                    </p>
+                    <p className='text-gray-600 text-center capitalize'>
+                        this will delete your task are u sure ?
+                    </p>
+                    <div className='flex gap-3.5'>
+                        <button onClick={handelDeletepopUp} type='button' className='px-4 py-2 rounded-2xl text-black capitalize text-
+                        xl w-full mt-5 cursor-pointer '>colse</button>
+                        <button onClick={confirmDelete} type='submit' className={`px-4 cursor-pointer py-2 rounded-2xl bg-red-500 text-white capitalize text-
+                        xl w-full mt-5   `}>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default DeleteModel

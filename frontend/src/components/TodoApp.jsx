@@ -1,11 +1,12 @@
 import React from 'react'
+import { RxCross1 } from "react-icons/rx";
 
 const TodoApp = ({ loading, title, setTitle, content, setContent, postdata, tooglecreateNote }) => {
     return (
         <>
             <div className='px-6 md:px-12 container mx-auto flex items-center justify-center flex-col z-50 '>
-                <div className="card max-w-md w-full shadow-lg rounded mt-5 p-5 bg-white">
-                    <button onClick={tooglecreateNote}>close</button>
+                <div className="card max-w-md w-full shadow-lg rounded mt-5 p-5 bg-white relative">
+                    <RxCross1 onClick={tooglecreateNote} className='text-xl absolute right-0 to-[-10px] cursor-pointer' />
                     <form onSubmit={postdata} action="">
                         <h1 className='font-semibold capitalize'>add new task</h1>
                         <div className="input- mt-5">
@@ -24,8 +25,7 @@ const TodoApp = ({ loading, title, setTitle, content, setContent, postdata, toog
                         </div>
                         <button disabled={loading} className={`px-4 py-2 rounded-2xl bg-blue-500 text-white capitalize text-
                         xl w-full mt-5 cursor-pointer  ${loading ? "cursor-not-allowed" : ""}`}>
-
-                            {loading ? "Loading......." : "Add Task"}
+                            {loading ? "Loading..." : "Add Task"}
                         </button>
                     </form>
                 </div>

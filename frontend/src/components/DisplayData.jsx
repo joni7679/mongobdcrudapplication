@@ -23,8 +23,8 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                                                 <div className='flex items-center gap-2'>
                                                     <h1 className='font-semibold capitalize text-xl'>{title}</h1>
                                                     <p className={
-                                                        `text-sm  p-1 rounded-2xl capitalize
-                                                    ${status === "Complete" ? "bg-green-200 text-green-600" : "bg-yellow-200 text-yellow-600"}`}>
+                                                        `text-sm  p-2 rounded-2xl capitalize
+                                                    ${status === "Complete" ? "bg-green-400 text-white" : "bg-yellow-400 text-white"}`}>
                                                         {
                                                             status === "Complete" ? "Complete" : "Pending"
                                                         }

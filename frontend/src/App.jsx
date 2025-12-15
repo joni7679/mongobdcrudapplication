@@ -6,6 +6,7 @@ import DisplayData from "./components/DisplayData";
 import toast from "react-hot-toast";
 import Searching from "./components/Searching";
 import EditTodo from "./components/EditTodo";
+import DeleteModel from "./components/DeleteModel";
 
 export default function App() {
   const [loading, setLoading] = useState(false)
@@ -16,9 +17,14 @@ export default function App() {
   const [editData, setEditData] = useState(null)
   const [editModal, setEditModal] = useState(false);
   const [searchTask, setSearchTask] = useState("");
+  const [deletemodel, setDeleteModel] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const api = import.meta.env.VITE_BACKEND_URL;
-
+  // delete
+  const handelDeletepopUp = () => {
+    setDeleteModel(!deletemodel)
+  }
   const fetchNotesData = async () => {
     let taskData = await fetch(`${api}/task`);
     let res = await taskData.json();
@@ -54,17 +60,20 @@ export default function App() {
       console.log("error", error);
     }
   }
-  //  delete logic here
+  // delete logic here...
   const deleteData = async (id) => {
-    const confitm = window.confirm("Are U Sure U Went To Delete This Data")
-    if (confitm) {
-      try {
-        const data = await axios.delete(`${api}/task/${id}`);
-        toast.success(" Task delete sucessfully !")
-        fetchNotesData()
-      } catch (error) {
-        console.log("error", error);
-      }
+    setDeleteId(id);
+    setDeleteModel(true)
+  }
+
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`${api}/task/${deleteId}`)
+      toast.success("Task delete successfully")
+      handelDeletepopUp()
+      fetchNotesData()
+    } catch (error) {
+      toast.error(error)
     }
   }
 
@@ -85,15 +94,17 @@ export default function App() {
   const handleSearch = async () => {
     console.log(searchTask);
     try {
-      const task = await axios.get(`${api}/task`);
-      console.log("Task", task);
+      // const task = await axios.get(`${api}/task`);
+      // console.log("Task", task);
 
-      const search = task.filter((val) => val.title === searchTask);
-      console.log("search task", search);
+      // const search = task.filter((val) => val.title === searchTask);
+      // console.log("search task", search);
     } catch (error) {
       console.log("error", error);
     }
   };
+
+
 
 
   useEffect(() => {
@@ -103,21 +114,26 @@ export default function App() {
   return (
     <>
       <main>
-        <section className=" bg-gray-100 p-6 relative min-h-screen">
+        <section className=" bg-gray-100 p-6 relative min-h-screen  overflow-hidden">
           <div className="flex items-center justify-between">
-            <h1 className='font-semibold  text-2xl'>Todo List app</h1>
-            <button onClick={tooglecreateNote} className='px-4 py-2 bg-green-500 text-white rounded-2xl capitalize cursor-pointer'>
+            <h1 className='font-semibold  text-2xl capitalize'>task List app</h1>
+            <button onClick={tooglecreateNote} className='px-4 py-2 bg-green-500 mb-3.5 text-white rounded-2xl capitalize cursor-pointer'>
               Add New Task
             </button>
           </div>
           <Searching searchTask={searchTask} handleTask={handleSearch} setSearchTask={setSearchTask} />
-          <div className={`absolute w-full h-full   ${createTask ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
+          <div className={`absolute w-full h-full cursor-pointer  ${createTask ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
             <div className="overly w-full h-full absolute z-10"></div>
             <div className="relative z-50">
               <TodoApp loading={loading} title={title} setTitle={setTitle} content={content} setContent={setContent} postdata={postdata} tooglecreateNote={tooglecreateNote} />
             </div>
           </div>
-          <div className={`absolute w-full h-full   ${editModal ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
+
+          <div className={` w-full h-full flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  duration-150 ${deletemodel ? "scale-[1.2]" : "scale-0"} `}>
+            <DeleteModel confirmDelete={confirmDelete} handelDeletepopUp={handelDeletepopUp} />
+          </div>
+
+          <div className={`absolute w-full h-full    ${editModal ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
             <div className="overly w-full h-full absolute z-10"></div>
             <div className="relative z-50">
               <EditTodo tooglepoupu={tooglepoupu} editData={editData} fetchNotesData={fetchNotesData} />
