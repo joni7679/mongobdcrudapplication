@@ -10,6 +10,7 @@ import DeleteModel from "./components/DeleteModel";
 
 export default function App() {
   const [loading, setLoading] = useState(false)
+  const [searchloading, setSearchLoading] = useState(false)
   const [createTask, setCreateTask] = useState(false)
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
@@ -26,9 +27,17 @@ export default function App() {
     setDeleteModel(!deletemodel)
   }
   const fetchNotesData = async () => {
-    let taskData = await fetch(`${api}/task`);
-    let res = await taskData.json();
-    setTasks(res.tasks)
+    setLoading(true)
+    try {
+      let taskData = await fetch(`${api}/task`);
+      let res = await taskData.json();
+      setLoading(false)
+      setTasks(res.tasks)
+    } catch (error) {
+      console.log("error", error);
+    }
+
+
   }
   const tooglecreateNote = () => {
     setCreateTask(!createTask)
@@ -46,6 +55,7 @@ export default function App() {
     };
     if (!title) {
       toast.error(" this filled is required !")
+      return
     }
     setLoading(true)
     try {
@@ -67,13 +77,18 @@ export default function App() {
   }
 
   const confirmDelete = async () => {
+    setLoading(true)
     try {
       await axios.delete(`${api}/task/${deleteId}`)
       toast.success("Task delete successfully")
       handelDeletepopUp()
       fetchNotesData()
+      setLoading(false)
     } catch (error) {
       toast.error(error)
+    }
+    finally {
+      setLoading(false)
     }
   }
 
@@ -90,22 +105,14 @@ export default function App() {
     console.log("id", id);
 
   };
-
-  const handleSearch = async () => {
-    console.log(searchTask);
-    try {
-      // const task = await axios.get(`${api}/task`);
-      // console.log("Task", task);
-
-      // const search = task.filter((val) => val.title === searchTask);
-      // console.log("search task", search);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-
-
+  // hanleonchange
+  const handleOnChange = (e) => {
+    setSearchTask(e.target.value);
+  }
+  const handleSearch = () => {
+    const filterTasks = tasks.filter(task => task.title.toLowerCase().includes(searchTask.toLocaleLowerCase()))
+    setTasks(filterTasks)
+  }
 
   useEffect(() => {
     fetchNotesData();
@@ -121,7 +128,7 @@ export default function App() {
               Add New Task
             </button>
           </div>
-          <Searching searchTask={searchTask} handleTask={handleSearch} setSearchTask={setSearchTask} />
+          <Searching handleOnChange={handleOnChange} searchTask={searchTask} handleTask={handleSearch} setSearchTask={setSearchTask} />
           <div className={`absolute w-full h-full cursor-pointer  ${createTask ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
             <div className="overly w-full h-full absolute z-10"></div>
             <div className="relative z-50">
@@ -130,7 +137,7 @@ export default function App() {
           </div>
 
           <div className={` w-full h-full flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  duration-150 ${deletemodel ? "scale-[1.2]" : "scale-0"} `}>
-            <DeleteModel confirmDelete={confirmDelete} handelDeletepopUp={handelDeletepopUp} />
+            <DeleteModel loading={loading} confirmDelete={confirmDelete} handelDeletepopUp={handelDeletepopUp} />
           </div>
 
           <div className={`absolute w-full h-full    ${editModal ? "top-1/2" : "top-[-60%]"} left-1/2 transform  -translate-x-1/2 -translate-y-1/2 duration-150 transition-all`}>
@@ -139,7 +146,7 @@ export default function App() {
               <EditTodo tooglepoupu={tooglepoupu} editData={editData} fetchNotesData={fetchNotesData} />
             </div>
           </div>
-          <DisplayData markCompleteTask={markCompleteTask} tasks={tasks} deleteData={deleteData} updateData={updateData} />
+          <DisplayData loading={loading} searchloading={searchloading} markCompleteTask={markCompleteTask} tasks={tasks} deleteData={deleteData} updateData={updateData} />
         </section>
       </main>
     </>

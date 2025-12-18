@@ -21,7 +21,7 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                                         <div key={item._id} className='bg-white w-full mx-w-md shadow rouned p-5 rounded-2xl flex items-center justify-between'>
                                             <div>
                                                 <div className='flex items-center gap-2'>
-                                                    <h1 className='font-semibold capitalize text-xl'>{title}</h1>
+                                                    <h1 className={`font-semibold capitalize text-xl ${status === "Complete" ? "line-through" : ""}`}>{title}</h1>
                                                     <p className={
                                                         `text-sm  p-2 rounded-2xl capitalize
                                                     ${status === "Complete" ? "bg-green-400 text-white" : "bg-yellow-400 text-white"}`}>
@@ -31,7 +31,7 @@ const DisplayData = ({ tasks, deleteData, updateData, markCompleteTask }) => {
                                                     </p>
                                                 </div>
                                                 <p className=' mt-5'>
-                                                    {new Date(createdAt).toLocaleString()}
+                                                    {new Date(createdAt).toLocaleString("en-IN")}
                                                 </p>
                                                 <p className='text-sm font-semibold'>{content}</p>
                                             </div>

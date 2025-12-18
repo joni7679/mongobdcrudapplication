@@ -123,21 +123,3 @@ exports.markascompleteTask = async (req, res) => {
     }
 }
 
-exports.searchTask = async (req, res) => {
-    const { title } = req.body;
-    try {
-        const searchTask = await taskModel.find({
-            title: { $regex: title, $options: "i" }
-        })
-        res.send({
-            message: "task search success fully",
-            data: searchTask
-        })
-    } catch (error) {
-        res.status(500).send({
-            error: " task title failed",
-            details: error.message
-        })
-    }
-
-}
